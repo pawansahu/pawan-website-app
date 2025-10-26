@@ -32,6 +32,13 @@ body {
   background: var(--bg-color);
   transition: background 0.3s ease, color 0.3s ease;
   scroll-behavior: smooth;
+  /* Disable text selection globally */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  /* Disable touch callout on iOS */
+  -webkit-touch-callout: none;
 }
 
 /* Scroll Progress Bar */
@@ -787,6 +794,11 @@ body {
   background: var(--bg-color);
   color: var(--text-color);
   transition: border-color 0.3s;
+  /* Allow selection in form inputs */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }
 
 .form-group input:focus,

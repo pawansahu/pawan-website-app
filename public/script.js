@@ -273,4 +273,163 @@ if (profileImage) {
 //   }
 // });
 
+// ============================================
+// DEVELOPER TOOLS & SOURCE CODE PROTECTION
+// ============================================
+
+// Disable right-click globally
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  return false;
+});
+
+// Disable keyboard shortcuts for DevTools and View Source
+document.addEventListener('keydown', (e) => {
+  // F12 - Developer Tools
+  if (e.key === 'F12' || e.keyCode === 123) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+Shift+I - Developer Tools
+  if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.keyCode === 73)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+Shift+J - Console
+  if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.keyCode === 74)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+Shift+C - Inspect Element
+  if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.keyCode === 67)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+U - View Source
+  if (e.ctrlKey && (e.key === 'U' || e.keyCode === 85)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+S - Save Page
+  if (e.ctrlKey && (e.key === 'S' || e.keyCode === 83)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+P - Print (can be used to save)
+  if (e.ctrlKey && (e.key === 'P' || e.keyCode === 80)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Ctrl+Shift+K - Firefox Console
+  if (e.ctrlKey && e.shiftKey && (e.key === 'K' || e.keyCode === 75)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Cmd+Option+I (Mac) - Developer Tools
+  if (e.metaKey && e.altKey && (e.key === 'I' || e.keyCode === 73)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Cmd+Option+J (Mac) - Console
+  if (e.metaKey && e.altKey && (e.key === 'J' || e.keyCode === 74)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Cmd+Option+C (Mac) - Inspect Element
+  if (e.metaKey && e.altKey && (e.key === 'C' || e.keyCode === 67)) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Cmd+U (Mac) - View Source
+  if (e.metaKey && (e.key === 'U' || e.keyCode === 85)) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Detect if DevTools is open
+let devtoolsOpen = false;
+const threshold = 160;
+
+// Check window size changes (DevTools opening)
+const detectDevTools = () => {
+  const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+  const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+  
+  if (widthThreshold || heightThreshold) {
+    if (!devtoolsOpen) {
+      devtoolsOpen = true;
+      // Redirect or show warning
+      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#1e3c72;">⚠️ Developer tools are not allowed</div>';
+    }
+  } else {
+    devtoolsOpen = false;
+  }
+};
+
+// Check periodically
+setInterval(detectDevTools, 1000);
+
+// Detect debugger
+setInterval(() => {
+  const before = new Date();
+  debugger;
+  const after = new Date();
+  if (after - before > 100) {
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#1e3c72;">⚠️ Debugging is not allowed</div>';
+  }
+}, 1000);
+
+// Disable text selection on sensitive elements
+document.addEventListener('selectstart', (e) => {
+  // Allow selection in form inputs
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    return true;
+  }
+  e.preventDefault();
+  return false;
+});
+
+// Disable copy
+document.addEventListener('copy', (e) => {
+  // Allow copy in form inputs
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    return true;
+  }
+  e.preventDefault();
+  return false;
+});
+
+// Disable cut
+document.addEventListener('cut', (e) => {
+  e.preventDefault();
+  return false;
+});
+
+// Clear console periodically
+setInterval(() => {
+  console.clear();
+}, 2000);
+
+// Override console methods
+(function() {
+  const noop = function() {};
+  const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd', 'clear'];
+  
+  methods.forEach(method => {
+    console[method] = noop;
+  });
+})();
+
 console.log('Portfolio loaded successfully! 🚀');
