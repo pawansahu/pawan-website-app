@@ -28,19 +28,43 @@ themeToggle.addEventListener('click', () => {
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const navLinks = document.querySelector('.nav-links');
 
-mobileMenuToggle.addEventListener('click', () => {
-  navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-  if (navLinks.style.display === 'flex') {
-    navLinks.style.position = 'absolute';
-    navLinks.style.top = '100%';
-    navLinks.style.left = '0';
-    navLinks.style.right = '0';
-    navLinks.style.background = 'var(--card-bg)';
-    navLinks.style.flexDirection = 'column';
-    navLinks.style.padding = '20px';
-    navLinks.style.boxShadow = 'var(--shadow)';
-  }
-});
+if (mobileMenuToggle && navLinks) {
+  mobileMenuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+
+    // Change icon
+    const icon = mobileMenuToggle.querySelector('i');
+    if (icon) {
+      if (navLinks.classList.contains('active')) {
+        icon.className = 'fas fa-times';
+      } else {
+        icon.className = 'fas fa-bars';
+      }
+    }
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+      navLinks.classList.remove('active');
+      const icon = mobileMenuToggle.querySelector('i');
+      if (icon) {
+        icon.className = 'fas fa-bars';
+      }
+    }
+  });
+
+  // Close menu when clicking a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      const icon = mobileMenuToggle.querySelector('i');
+      if (icon) {
+        icon.className = 'fas fa-bars';
+      }
+    });
+  });
+}
 
 // Smooth Scroll for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -48,11 +72,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Close mobile menu if open
-      if (window.innerWidth <= 768) {
-        navLinks.style.display = 'none';
-      }
+      // Calculate offset for fixed navbar
+      const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 60;
+      const targetPosition = target.offsetTop - navbarHeight;
+
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
     }
   });
 });
@@ -118,7 +145,7 @@ const formMessage = document.getElementById('formMessage');
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData(contactForm);
     const data = {
       name: formData.get('name'),
@@ -136,7 +163,7 @@ if (contactForm) {
       });
 
       const result = await response.json();
-      
+
       if (result.success) {
         formMessage.textContent = result.message;
         formMessage.className = 'form-message success';
@@ -195,7 +222,7 @@ if (typingText) {
   const text = typingText.textContent;
   typingText.textContent = '';
   let i = 0;
-  
+
   function typeWriter() {
     if (i < text.length) {
       typingText.textContent += text.charAt(i);
@@ -203,14 +230,14 @@ if (typingText) {
       setTimeout(typeWriter, 50);
     }
   }
-  
+
   setTimeout(typeWriter, 500);
 }
 
 // Add animation class to elements
 document.addEventListener('DOMContentLoaded', () => {
   const animateOnScroll = document.querySelectorAll('[data-aos]');
-  
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -247,18 +274,18 @@ if (profileImage) {
     e.preventDefault();
     return false;
   });
-  
+
   // Prevent drag
   profileImage.addEventListener('dragstart', (e) => {
     e.preventDefault();
     return false;
   });
-  
+
   // Prevent selection
   profileImage.addEventListener('mousedown', (e) => {
     e.preventDefault();
   });
-  
+
   // Additional protection for touch devices
   profileImage.addEventListener('touchstart', (e) => {
     e.preventDefault();
@@ -290,67 +317,67 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+Shift+I - Developer Tools
   if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.keyCode === 73)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+Shift+J - Console
   if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.keyCode === 74)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+Shift+C - Inspect Element
   if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.keyCode === 67)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+U - View Source
   if (e.ctrlKey && (e.key === 'U' || e.keyCode === 85)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+S - Save Page
   if (e.ctrlKey && (e.key === 'S' || e.keyCode === 83)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+P - Print (can be used to save)
   if (e.ctrlKey && (e.key === 'P' || e.keyCode === 80)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Ctrl+Shift+K - Firefox Console
   if (e.ctrlKey && e.shiftKey && (e.key === 'K' || e.keyCode === 75)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Cmd+Option+I (Mac) - Developer Tools
   if (e.metaKey && e.altKey && (e.key === 'I' || e.keyCode === 73)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Cmd+Option+J (Mac) - Console
   if (e.metaKey && e.altKey && (e.key === 'J' || e.keyCode === 74)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Cmd+Option+C (Mac) - Inspect Element
   if (e.metaKey && e.altKey && (e.key === 'C' || e.keyCode === 67)) {
     e.preventDefault();
     return false;
   }
-  
+
   // Cmd+U (Mac) - View Source
   if (e.metaKey && (e.key === 'U' || e.keyCode === 85)) {
     e.preventDefault();
@@ -366,7 +393,7 @@ const threshold = 160;
 const detectDevTools = () => {
   const widthThreshold = window.outerWidth - window.innerWidth > threshold;
   const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-  
+
   if (widthThreshold || heightThreshold) {
     if (!devtoolsOpen) {
       devtoolsOpen = true;
@@ -423,10 +450,10 @@ setInterval(() => {
 }, 2000);
 
 // Override console methods
-(function() {
-  const noop = function() {};
+(function () {
+  const noop = function () { };
   const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd', 'clear'];
-  
+
   methods.forEach(method => {
     console[method] = noop;
   });
