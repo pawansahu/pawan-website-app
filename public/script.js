@@ -385,38 +385,43 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Detect if DevTools is open
-let devtoolsOpen = false;
-const threshold = 160;
+// Detect if DevTools is open (Desktop only - disabled on mobile)
+const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-// Check window size changes (DevTools opening)
-const detectDevTools = () => {
-  const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-  const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+// Only enable aggressive DevTools detection on desktop
+if (!isMobileDevice) {
+  let devtoolsOpen = false;
+  const threshold = 160;
 
-  if (widthThreshold || heightThreshold) {
-    if (!devtoolsOpen) {
-      devtoolsOpen = true;
-      // Redirect or show warning
-      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#1e3c72;">⚠️ Developer tools are not allowed</div>';
+  // Check window size changes (DevTools opening) - Desktop only
+  const detectDevTools = () => {
+    const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+    const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+
+    if (widthThreshold || heightThreshold) {
+      if (!devtoolsOpen) {
+        devtoolsOpen = true;
+        // Show warning only on desktop
+        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#1e3c72;">⚠️ Developer tools are not allowed</div>';
+      }
+    } else {
+      devtoolsOpen = false;
     }
-  } else {
-    devtoolsOpen = false;
-  }
-};
+  };
 
-// Check periodically
-setInterval(detectDevTools, 1000);
+  // Check periodically - Desktop only
+  setInterval(detectDevTools, 1000);
 
-// Detect debugger
-setInterval(() => {
-  const before = new Date();
-  debugger;
-  const after = new Date();
-  if (after - before > 100) {
-    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#1e3c72;">⚠️ Debugging is not allowed</div>';
-  }
-}, 1000);
+  // Detect debugger - Desktop only
+  setInterval(() => {
+    const before = new Date();
+    debugger;
+    const after = new Date();
+    if (after - before > 100) {
+      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;font-size:24px;color:#1e3c72;">⚠️ Debugging is not allowed</div>';
+    }
+  }, 1000);
+}
 
 // Disable text selection on sensitive elements
 document.addEventListener('selectstart', (e) => {
