@@ -1,14 +1,35 @@
 # Pawan Sahu - Portfolio Website
 
-A professional portfolio website built with Node.js, Express, and EJS templating engine.
+A stunning, interactive professional portfolio website built with Node.js, Express, and EJS templating engine.
 
-## Features
+## ✨ Features
 
-- Responsive design with modern UI
-- Professional summary and experience showcase
-- Skills categorization
-- Education and key highlights sections
-- Static file serving for images and assets
+### Design & UI
+- 🎨 Modern, responsive design with smooth animations
+- 🌓 Dark mode toggle with persistent theme preference
+- 📱 Fully mobile-responsive layout
+- 🎭 Smooth scroll animations and transitions
+- 📊 Interactive progress bars for skills
+- ⚡ Scroll progress indicator
+- 🔝 Back-to-top button
+
+### Sections
+- 👤 Hero section with animated profile and typing effect
+- 📈 Statistics cards showing experience metrics
+- 💻 Skills showcase with animated progress bars
+- 🚀 Featured projects with technology tags and highlights
+- 📅 Timeline view for professional experience
+- 🎓 Education section with elegant cards
+- 💬 Testimonials slider with auto-rotation
+- 📧 Working contact form
+- ⭐ Key highlights grid
+
+### Functionality
+- 📥 Downloadable resume button
+- 📮 Contact form with validation
+- 🧭 Sticky navigation with smooth scrolling
+- 📱 Mobile-friendly hamburger menu
+- 🎯 Intersection Observer for scroll animations
 
 ## Tech Stack
 
@@ -55,14 +76,27 @@ The application will be available at:
 
 ```
 pawan-website-app/
-├── server.js           # Express server configuration
-├── package.json        # Project dependencies
+├── server.js              # Express server with API endpoints
+├── package.json           # Project dependencies
 ├── views/
-│   └── index.ejs      # Main portfolio template
+│   └── index.ejs         # Enhanced portfolio template
 ├── public/
-│   └── pawan_sahu.jpeg # Profile image
-└── README.md          # Project documentation
+│   ├── pawan_sahu.jpeg   # Profile image
+│   ├── styles.css        # Complete styling with animations
+│   └── script.js         # Interactive features & animations
+└── README.md             # Project documentation
 ```
+
+## 🎯 New Interactive Features
+
+1. **Dark Mode**: Toggle between light and dark themes with persistent storage
+2. **Skill Animations**: Progress bars animate when scrolled into view
+3. **Project Showcase**: Interactive cards with hover effects
+4. **Timeline Experience**: Visual timeline for career journey
+5. **Testimonials Slider**: Auto-rotating testimonials with manual controls
+6. **Contact Form**: Functional form with success/error messages
+7. **Smooth Animations**: Fade-in effects on scroll for all sections
+8. **Mobile Menu**: Responsive hamburger menu for mobile devices
 
 ## Configuration
 
